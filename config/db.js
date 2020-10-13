@@ -1,14 +1,6 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
-//const config = require('config');
-//const db = config.get('mongoURI');
-
-const db =
-	'mongodb+srv://' +
-	process.env.MONGOURI_NAME +
-	':' +
-	process.env.MONGOURI_PASSWORD +
-	'@flex.74psh.mongodb.net/<dbname>?retryWrites=true&w=majority';
+const config = require('config');
+const db = config.get('mongoURI');
 
 mongoose.connect(db, {
 	useNewUrlParser: true,
