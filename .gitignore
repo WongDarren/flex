@@ -1,3 +1,6 @@
 # dependencies
-
 node_modules/
+
+# secrets
+.env
+config/default.json
