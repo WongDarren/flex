@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import Alert from '../layouts/Alert';
+
 const Login = () => {
 	const [formData, setFormData] = useState({
 		email: '',
@@ -26,6 +28,7 @@ const Login = () => {
 	return (
 		<Fragment>
 			<div className='container'>
+				<Alert />
 				<h1 className='large text-primary'>Sign In</h1>
 				<p className='lead'>
 					<i className='fas fa-user'></i> Sign Into Your Account
