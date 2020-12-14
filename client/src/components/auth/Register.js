@@ -1,13 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../redux/alert/alert.actions';
 import { register } from '../../redux/auth/auth.actions';
+
 import PropTypes from 'prop-types';
 
 import Alert from '../layouts/Alert';
 
-const Register = ({ setAlert, register }) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
@@ -21,9 +22,6 @@ const Register = ({ setAlert, register }) => {
 		setFormData({
 			...formData,
 			[e.target.name]: e.target.value,
-			[e.target.email]: e.target.value,
-			[e.target.password]: e.target.value,
-			[e.target.password2]: e.target.value,
 		});
 
 	const onSubmit = async (e) => {
@@ -35,6 +33,11 @@ const Register = ({ setAlert, register }) => {
 			register({ name, email, password });
 		}
 	};
+
+	// Redirect if registered
+	if (isAuthenticated) {
+		return <Redirect to='/dashboard' />;
+	}
 
 	return (
 		<Fragment>
@@ -50,7 +53,7 @@ const Register = ({ setAlert, register }) => {
 							type='text'
 							placeholder='Name'
 							name='name'
-							// required
+							required
 							value={name}
 							onChange={(e) => onChange(e)}
 						/>
@@ -60,7 +63,7 @@ const Register = ({ setAlert, register }) => {
 							type='email'
 							placeholder='Email Address'
 							name='email'
-							// required
+							required
 							value={email}
 							onChange={(e) => onChange(e)}
 						/>
@@ -74,7 +77,7 @@ const Register = ({ setAlert, register }) => {
 							type='password'
 							placeholder='Password'
 							name='password'
-							// minLength='6'
+							minLength='6'
 							value={password}
 							onChange={(e) => onChange(e)}
 						/>
@@ -84,7 +87,7 @@ const Register = ({ setAlert, register }) => {
 							type='password'
 							placeholder='Confirm Password'
 							name='password2'
-							// minLength='6'
+							minLength='6'
 							value={password2}
 							onChange={(e) => onChange(e)}
 						/>
@@ -102,6 +105,11 @@ const Register = ({ setAlert, register }) => {
 Register.propTypes = {
 	setAlert: PropTypes.func.isRequired,
 	register: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert, register })(Register);
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.authReducer.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);
