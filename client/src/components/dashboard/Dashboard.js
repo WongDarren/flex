@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../redux/profile/profile.actions';
 
 import Spinner from '../layouts/Spinner';
+import { DashboardActions } from './DashboardActions';
 
 const Dashboard = ({
 	getCurrentProfile,
@@ -27,7 +28,9 @@ const Dashboard = ({
 					<i className='fas fa-user'></i> Welcome {user && user.name}
 				</p>
 				{profile !== null ? (
-					<Fragment>has</Fragment>
+					<Fragment>
+						<DashboardActions />
+					</Fragment>
 				) : (
 					<Fragment>
 						<p> You have not yet set up a profile. Please add some info.</p>
