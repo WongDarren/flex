@@ -7,6 +7,8 @@ import {
 	getCurrentProfile,
 } from '../../redux/profile/profile.actions';
 
+import Alert from '../layouts/Alert';
+
 const EditProfile = ({
 	createProfile,
 	getCurrentProfile,
@@ -80,6 +82,7 @@ const EditProfile = ({
 	) : (
 		<Fragment>
 			<div className='container'>
+				<Alert />
 				<h1 className='large text-primary'>Create Your Profile</h1>
 				<p className='lead'>
 					<i className='fas fa-user' /> Let's get some information to make your

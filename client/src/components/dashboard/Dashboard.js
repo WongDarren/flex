@@ -7,6 +7,7 @@ import { getCurrentProfile } from '../../redux/profile/profile.actions';
 
 import Spinner from '../layouts/Spinner';
 import { DashboardActions } from './DashboardActions';
+import Alert from '../layouts/Alert';
 
 const Dashboard = ({
 	getCurrentProfile,
@@ -23,6 +24,7 @@ const Dashboard = ({
 	) : (
 		<Fragment>
 			<div className='container'>
+				<Alert />
 				<h1 className='large text-primary'>Dashboard</h1>
 				<p className='lead'>
 					<i className='fas fa-user'></i> Welcome {user && user.name}
