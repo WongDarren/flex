@@ -20,6 +20,59 @@ export const getCurrentProfile = () => async (dispatch) => {
 	}
 };
 
+// Get all profiles
+export const getAllProfiles = () => async (dispatch) => {
+	dispatch({ type: ProfileActionTypes.CLEAR_PROFILE });
+
+	try {
+		const res = await axios.get('/api/profile');
+
+		dispatch({
+			type: ProfileActionTypes.GET_ALL_PROFILES,
+			payload: res.data,
+		});
+	} catch (err) {
+		dispatch({
+			type: ProfileActionTypes.PROFILE_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+// Get profile by id
+export const getProfileById = (userId) => async (dispatch) => {
+	try {
+		const res = await axios.get(`/api/profile/user/${userId}`);
+
+		dispatch({
+			type: ProfileActionTypes.GET_PROFILE,
+			payload: res.data,
+		});
+	} catch (err) {
+		dispatch({
+			type: ProfileActionTypes.PROFILE_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+// Get Github repos
+export const getGithubRepos = (username) => async (dispatch) => {
+	try {
+		const res = await axios.get(`/api/profile/github/${username}`);
+
+		dispatch({
+			type: ProfileActionTypes.GET_REPOS,
+			payload: res.data,
+		});
+	} catch (err) {
+		dispatch({
+			type: ProfileActionTypes.PROFILE_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
 // Create or update profile
 export const createProfile = (formData, history, edit = false) => async (
 	dispatch
@@ -116,6 +169,38 @@ export const addEducation = (formData, history) => async (dispatch) => {
 			errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
 		}
 
+		dispatch({
+			type: ProfileActionTypes.PROFILE_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+// Delete experience
+export const deleteExperience = (id) => async (dispatch) => {
+	try {
+		const res = await axios.delete(`/api/profile/experience/${id}`);
+
+		dispatch({ type: ProfileActionTypes.UPDATE_PROFILE, payload: res.data });
+
+		dispatch(setAlert('Experience Removed', 'success'));
+	} catch (err) {
+		dispatch({
+			type: ProfileActionTypes.PROFILE_ERROR,
+			payload: { msg: err.response.statusText, status: err.response.status },
+		});
+	}
+};
+
+// Delete education
+export const deleteEducation = (id) => async (dispatch) => {
+	try {
+		const res = await axios.delete(`/api/profile/education/${id}`);
+
+		dispatch({ type: ProfileActionTypes.UPDATE_PROFILE, payload: res.data });
+
+		dispatch(setAlert('Education Removed', 'success'));
+	} catch (err) {
 		dispatch({
 			type: ProfileActionTypes.PROFILE_ERROR,
 			payload: { msg: err.response.statusText, status: err.response.status },

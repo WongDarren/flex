@@ -67,3 +67,22 @@ export const logout = () => (dispatch) => {
 	dispatch({ type: ProfileActionTypes.CLEAR_PROFILE });
 	dispatch({ type: AuthActionTypes.LOGOUT });
 };
+
+// Delete account & profile
+export const deleteAccount = (id) => async (dispatch) => {
+	if (window.confirm('Are you sure? This can not be undone.')) {
+		try {
+			await axios.delete('/api/profile');
+
+			dispatch({ type: ProfileActionTypes.CLEAR_PROFILE });
+			dispatch({ type: AuthActionTypes.DELETE_ACCOUNT });
+
+			dispatch(setAlert('Your account has been permanently deleted.'));
+		} catch (err) {
+			dispatch({
+				type: ProfileActionTypes.PROFILE_ERROR,
+				payload: { msg: err.response.statusText, status: err.response.status },
+			});
+		}
+	}
+};
