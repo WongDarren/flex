@@ -103,14 +103,14 @@ router.delete('/:id', auth, async (req, res) => {
 	}
 });
 
-// @route     PUT api/posts/like/:id
-// @desc      Like a post
-// @access    Private
+// @route    PUT api/posts/like/:id
+// @desc     Like a post
+// @access   Private
 router.put('/like/:id', auth, async (req, res) => {
 	try {
 		const post = await Post.findById(req.params.id);
 
-		//Check if post has already been liked
+		// Check if the post has already been liked
 		if (
 			post.likes.filter((like) => like.user.toString() === req.user.id).length >
 			0
@@ -129,14 +129,14 @@ router.put('/like/:id', auth, async (req, res) => {
 	}
 });
 
-// @route     PUT api/posts/unlike
-// @desc      Like a post
-// @access    Private
-router.put('/like/:id', auth, async (req, res) => {
+// @route    PUT api/posts/unlike/:id
+// @desc     Like a post
+// @access   Private
+router.put('/unlike/:id', auth, async (req, res) => {
 	try {
 		const post = await Post.findById(req.params.id);
 
-		//Check if post has not been liked
+		// Check if the post has already been liked
 		if (
 			post.likes.filter((like) => like.user.toString() === req.user.id)
 				.length === 0
@@ -160,15 +160,14 @@ router.put('/like/:id', auth, async (req, res) => {
 	}
 });
 
-// @route     POST api/posts/comments/:id
-// @desc      Comment on a post
-// @access    Private
+// @route    POST api/posts/comment/:id
+// @desc     Comment on a post
+// @access   Private
 router.post(
-	'/comments/:id',
-	[auth, [check('text').not().isEmpty()]],
+	'/comment/:id',
+	[auth, [check('text', 'Text is required').not().isEmpty()]],
 	async (req, res) => {
 		const errors = validationResult(req);
-
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}
@@ -196,14 +195,14 @@ router.post(
 	}
 );
 
-// @route     DELETE api/posts/comments/:id/:comment_id
-// @desc      Delete a comment on a post
-// @access    Private
-router.delete('/comments/:id/:comment_id', auth, async (req, res) => {
+// @route    DELETE api/posts/comment/:id/:comment_id
+// @desc     Delete comment
+// @access   Private
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 	try {
 		const post = await Post.findById(req.params.id);
 
-		// Pull comment from post
+		// Pull out comment
 		const comment = post.comments.find(
 			(comment) => comment.id === req.params.comment_id
 		);
@@ -220,8 +219,8 @@ router.delete('/comments/:id/:comment_id', auth, async (req, res) => {
 
 		// Get remove index
 		const removeIndex = post.comments
-			.map((comment) => comment.user.toString())
-			.indexOf(req.user.id);
+			.map((comment) => comment.id)
+			.indexOf(req.params.comment_id);
 
 		post.comments.splice(removeIndex, 1);
 

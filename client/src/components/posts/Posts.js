@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { getPosts } from '../../redux/post/post.actions';
 
 import Spinner from '../layouts/Spinner';
-import PostItem from '../posts/PostItem';
+import PostItem from './PostItem';
+import PostForm from './PostForm';
+import Alert from '../layouts/Alert';
 
 const Posts = ({ getPosts, post: { posts, loading } }) => {
 	useEffect(() => {
@@ -19,11 +21,12 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
 			) : (
 				<Fragment>
 					<div className='container'>
+						<Alert />
 						<h1 className='large text-primary'>Posts</h1>
 						<p className='lead'>
 							<i className='fas fa-user'></i> Welcome to the community
 						</p>
-						{/*PostForm*/}
+						<PostForm />
 						<div className='posts'>
 							{posts.map((post) => (
 								<PostItem key={post._id} post={post} />
