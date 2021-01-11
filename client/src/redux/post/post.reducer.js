@@ -1,4 +1,3 @@
-import Post from '../../components/post/Post';
 import PostActionTypes from './post.types';
 
 const INITIAL_STATE = {
