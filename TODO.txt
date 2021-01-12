@@ -1,6 +1,1 @@
-// Check ProfileGithub.js and routes/api/profile.js
-    - Github repos not displaying
-    - Exceeded API limit?
-    - Oh yea, doesn't work if I exceed API limit
-
-// Like and unlike functionality
+// DEPLOY!!!!
